@@ -1,0 +1,48 @@
+{% extends 'baseDash.html.twig' %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block body %}
+    <h1>Edit Product</h1>
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+    {{ form_start(form, {'attr': {'class': 'contact-us', 'novalidate': 'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-6">
+            <label for="{{ form.name.vars.id }}">Name</label>
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Name'}}) }}
+            {% if form_errors(form.name) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.name) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label for="{{ form.price.vars.id }}">Price</label>
+            {{ form_widget(form.price, {'attr': {'class': 'form-control', 'placeholder': 'Price'}}) }}
+            {% if form_errors(form.price) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.price) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label for="{{ form.category.vars.id }}">Category</label>
+            {{ form_widget(form.category, {'attr': {'class': 'form-control', 'placeholder': 'Category'}}) }}
+            {% if form_errors(form.category) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.category) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label for="{{ form.restaurant.vars.id }}">Restaurant</label>
+            {{ form_widget(form.restaurant, {'attr': {'class': 'form-control'}}) }}
+            {% if form_errors(form.restaurant) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.restaurant) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-danger btn-buy-now">Update</button>
+    {{ form_end(form) }}
+<br>
+    <a class="btn btn-danger btn-buy-now" href="{{ path('app_product_indexdash') }}">back to list</a>
+
+    </div>
+    </div>
+{% endblock %}

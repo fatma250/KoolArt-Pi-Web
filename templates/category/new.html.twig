@@ -1,0 +1,33 @@
+{% extends 'baseDash.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+    <h1>Create new Category</h1>
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+    {{ form_start(form, {'attr': {'class': 'contact-us', 'novalidate': 'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-6">
+            <label for="type">Type</label>
+            {{ form_widget(form.type, {'attr': {'class': 'form-control', 'placeholder': 'Type'}}) }}
+            {% if form_errors(form.type) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.type) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label for="category">Category</label>
+            {{ form_widget(form.category, {'attr': {'class': 'form-control', 'placeholder': 'Category'}}) }}
+            {% if form_errors(form.category) is not empty %}
+                <div class="alert alert-danger">{{ form_errors(form.category) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-danger btn-buy-now">Add</button>
+    {{ form_end(form) }}
+<br>
+    <a class="btn btn-danger btn-buy-now" href="{{ path('app_category_index') }}">back to list</a>
+    </div>
+    </div>
+{% endblock %}

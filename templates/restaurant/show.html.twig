@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant index{% endblock %}
+
+{% block body %}
+<!-- Carousel Start -->
+<div class="carousel">
+    <div class="container-fluid">
+        <div class="owl-carousel">
+            <div class="carousel-item">
+                <div class="carousel-img">
+                    <img src="{{ asset('front/img/carousel-1.jpg')}}" alt="Image">
+                </div>
+                <div class="carousel-text">
+                    <h1>Best <span>Quality</span> Ingredients</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet elit. Phasellus ut mollis mauris. Vivamus egestas eleifend dui ac consequat at lectus in malesuada
+                    </p>
+                    <div class="carousel-btn">
+                        <a class="btn custom-btn" href="">View Menu</a>
+                        <a class="btn custom-btn" href="">Book Table</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-img">
+                    <img src="{{ asset('front/img/carousel-2.jpg')}}" alt="Image">
+                </div>
+                <div class="carousel-text">
+                    <h1>World’s <span>Best</span> Chef</h1>
+                    <p>
+                        Morbi sagittis turpis id suscipit feugiat. Suspendisse eu augue urna. Morbi sagittis, orci sodales varius fermentum, tortor
+                    </p>
+                    <div class="carousel-btn">
+                        <a class="btn custom-btn" href="">View Menu</a>
+                        <a class="btn custom-btn" href="">Book Table</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-img">
+                    <img src="{{ asset('front/img/carousel-3.jpg')}}" alt="Image">
+                </div>
+                <div class="carousel-text">
+                    <h1>Fastest Order <span>Delivery</span></h1>
+                    <p>
+                        Sed ultrices, est eget feugiat accumsan, dui nibh egestas tortor, ut rhoncus nibh ligula euismod quam. Proin pellentesque odio
+                    </p>
+                    <div class="carousel-btn">
+                        <a class="btn custom-btn" href="">View Menu</a>
+                        <a class="btn custom-btn" href="">Book Table</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   <!-- Menu Start -->
+<div class="menu">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Food Menu</p>
+            <h2>Delicious Food Menu</h2>
+        </div>
+        <div class="menu-tab">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#burgers">Restaurant informations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#snacks">product list</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="burgers" class="container tab-pane active">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12">
+                            <div class="menu-item">
+                                <div class="menu-text">
+                                    <h3>Name : {{restaurant.name}}</h3>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-text">
+                                    <h3>Location : {{restaurant.location}}</h3>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-text">
+                                    <h3>Category : {{restaurant.category}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <img src="{{ asset(restaurant.image)}}" alt="Image">
+                        </div>
+                    </div>
+                </div>
+                <div id="snacks" class="container tab-pane fade">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12">
+                            {% for product in products %}
+                            <div class="menu-item">
+                                <div class="menu-img">
+                                    <img src="{{ asset(restaurant.image)}}" alt="Image">
+                                </div>
+                                <div class="menu-text">
+                                    <h3><span>{{product.name}}</span> <strong>${{product.price}}</strong></h3>
+                                    <p>{{product.category}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <img src="{{ asset(restaurant.image)}}" alt="Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Menu End -->
+{% endblock %}
