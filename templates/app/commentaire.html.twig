@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact us{% endblock %}
+
+{% block body %}
+
+    <!-- Navbar Start -->
+
+    <!-- Navbar End -->
+    <!-- Page Header Start -->
+    <div
+            class="container-fluid page-header py-5 mb-5 wow fadeIn"
+            data-wow-delay="0.1s"
+    >
+        <div class="container text-center py-5">
+            <h1 class="display-4 text-white animated slideInDown mb-4">
+                Commentaire
+            </h1>
+
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Contact Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div
+                        class="col-lg-6 wow fadeInUp"
+                        data-wow-delay="0.1s"
+                        style="min-height: 450px"
+                >
+                    <div class="position-relative h-100">
+                        <td> {% if forumpost.content %}
+
+                                <img src="{{ asset('assets/imgpost/imgPost/' ~ forumpost.content) }}" alt="le post" style="min-height: 450px; border: 0">
+                            {% else %}
+                                Pas d'image
+                            {% endif %}</td>
+                        <td>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="border-start border-5 border-primary ps-4 mb-5">
+                        <h6 class="text-body text-uppercase mb-2">Commentaire</h6>
+                        <h1 class="display-6 mb-0">
+                            <td>{{ forumpost.title}}</td>
+                        </h1>
+                    </div>
+
+                    <form method="post" action="{{ path('addCommentaire', {'id': forumpost.id}) }}">
+                        <div class="mb-3">
+                            <label for="commentaire" class="form-label">Votre commentaire</label>
+                            <textarea class="form-control" id="commentaire" name="commentaire"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer le commentaire</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+{% endblock %}

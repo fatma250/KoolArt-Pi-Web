@@ -20,11 +20,12 @@
 
                 <td>{{ forumpost.title }}</td>
                 <td> {% if forumpost.content %}
-                        <img src="{{ asset('assets/img/imgPost/' ~ forumpost.content) }}" alt="le post" style="max-width: 100px; max-height: 100px;">
+                        <img src="{{ asset('assets/imgpost/imgPost/' ~ forumpost.content) }}" alt="Image du actualite" style="max-width: 100px; max-height: 100px;">
                     {% else %}
                         Pas d'image
                     {% endif %}</td>
                 <td>
+
                 <td>
                     <a href="{{ path('app_forumpost_show', {'id': forumpost.id}) }}">show</a>
                     <a href="{{ path('app_forumpost_edit', {'id': forumpost.id}) }}">edit</a>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Entity\Forumpost;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -77,5 +78,18 @@ class CommentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/addCommentaire', name: 'addCommentaire', methods: ['GET', 'POST'])]
+    public function addcommentaire(Forumpost $forumpost, Request $request ,EntityManagerInterface $entityManager)
+    {
+        $comment = new Comment(); // Créez une nouvelle instance de votre entité Commentaire
+        $comment->setPostId($forumpost);
+        $comment->setCommentContent($request->request->get('commentaire')); // Assurez-vous que 'contenu' est le nom du champ dans votre formulaire
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('app_forumpost_commentaire', ['id' => $forumpost->getId()]);
     }
 }

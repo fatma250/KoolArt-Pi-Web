@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Forumpost;
+
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -35,6 +37,7 @@ class Comment
 
         return $this;
     }
+
 
     public function getPostId(): ?Forumpost
     {

@@ -100,4 +100,42 @@ class ForumpostController extends AbstractController
 
         return $this->redirectToRoute('app_forumpost_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/forumpost/{id}/commentaire', name: 'app_forumpost_commentaire', methods: ['GET', 'POST'])]
+    public function commentaire(Request $request, Forumpost $forumpost, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ForumpostType::class, $forumpost);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) { // Handle the image upload
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('content')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // This ensures that the filename is unique
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where images are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Handle exception if something happens during file upload
+                }
+
+                // Update the image path in the actualite entity
+                $forumpost->setContent($newFilename);
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_forumpost_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('app/commentaire.html.twig', [
+            'forumpost' => $forumpost,
+            'form' => $form,
+        ]);
+    }
 }

@@ -34,16 +34,13 @@
                 <div class="team-item">
                     <div class="team-img">
                         <img src="{{ asset('assets/imgpost/imgPost/' ~forumpost.content)}}" alt="Image">
-                        <div class="team-social">
-                            <a href=""><i class="fab fa-twitter"></i></a>
-                            <a href=""><i class="fab fa-facebook-f"></i></a>
-                            <a href=""><i class="fab fa-linkedin-in"></i></a>
-                            <a href=""><i class="fab fa-instagram"></i></a>
+                        <div class="facts-overlay ">
+                            <a class="small" href="{{ path('app_forumpost_commentaire', {'id': forumpost.id}) }}">Commentez !<i class="fa fa-arrow-right ms-3"></i></a>
+
                         </div>
                     </div>
                     <div class="team-text">
                         <h2>{{ forumpost.title }}</h2>
-                        <p>CEO, Co Founder</p>
                     </div>
                 </div>
 
