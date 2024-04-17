@@ -1,0 +1,15 @@
+{% block form_widget %}
+    {% spaceless %}
+        <div>
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {% if form.vars.block_prefixes[0] == 'review' %}
+                {{ form_widget(form.rating, {'attr': {'class': 'star-rating'}}) }}
+                {{ form_widget(form.comment) }}
+                {{ form_widget(form.recette) }}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}

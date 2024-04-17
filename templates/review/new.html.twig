@@ -1,0 +1,26 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}New Review{% endblock %}
+
+{% block body %}
+    <h1>New Review</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.rating, 'Rating', {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.rating, {'attr': {'class': 'form-control star-rating'}}) }}
+        {% if form_errors(form.rating) %}
+            <div class="alert alert-danger">{{ form_errors(form.rating) }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.comment, 'Comment', {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
+        {% if form_errors(form.comment) %}
+            <div class="alert alert-danger">{{ form_errors(form.comment) }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+
+
+{% endblock %}
