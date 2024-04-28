@@ -7,20 +7,33 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ comment.id }}</td>
-            </tr>
-            <tr>
-                <th>CommentContent</th>
-                <td>{{ comment.commentContent }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ comment.id }}</td>
+        </tr>
+        <tr>
+            <th>CommentContent</th>
+            <td>{{ comment.commentContent }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_comment_index') }}">back to list</a>
+    <a href="{{ path('app_comment_index') }}" class="btn btn-primary" style="background-color: #fbaf32; color: #ffffff;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M5.354 11.354a.5.5 0 0 0 0-.708L2.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+            <path fill-rule="evenodd" d="M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8z"/>
+        </svg>
+        Back to List
+    </a>
 
-    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">edit</a>
+
+
+
+    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn" style="background-color: #719a0a; color: #ffffff; width: 8em;">
+        Edit
+    </a>
+
+
 
     {{ include('comment/_delete_form.html.twig') }}
 {% endblock %}

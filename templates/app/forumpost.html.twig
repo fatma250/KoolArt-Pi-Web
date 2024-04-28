@@ -4,52 +4,49 @@
 {% endblock %}
 
 {% block body %}
-<!-- Page Header Start -->
-<div class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2>yummy yummy !</h2>
-            </div>
-            <div class="col-12">
-                <a href=""></a>
-                <a href=""></a>
+    <!-- Page Header Start -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>yummy yummy !</h2>
+                </div>
+                <div class="col-12">
+                    <a href=""></a>
+                    <a href=""></a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Page Header End -->
+    <!-- Page Header End -->
 
-<!-- Team Start -->
-<div class="team">
-    <div class="container">
-        <div class="section-header text-center">
-            <p></p>
-            <h2>Nos plats </h2>
-        </div>
+    <!-- Team Start -->
+    <div class="team">
+        <div class="container">
+            <div class="section-header text-center">
+                <p></p>
+                <h2>Nos plats </h2>
+            </div>
 
-        <div class="row">
-            {% for forumpost in forumposts %}
-            <div class="col-lg-3 col-md-6">
-                <div class="team-item">
-                    <div class="team-img">
-                        <img src="{{ asset('assets/imgpost/imgPost/' ~forumpost.content)}}" alt="Image">
-                        <div class="facts-overlay ">
-                            <a class="small" href="{{ path('app_forumpost_commentaire', {'id': forumpost.id}) }}">Commentez !<i class="fa fa-arrow-right ms-3"></i></a>
-
+            <div class="row">
+                {% for forumpost in forumposts %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team-item">
+                            <div class="team-img">
+                                <img src="{{ asset('assets/imgpost/imgPost/' ~forumpost.content)}}" alt="Image" style="width: 300px; height: 200px;"> <!-- Définissez les dimensions souhaitées -->
+                                <div class="facts-overlay ">
+                                    <a class="small" href="{{ path('app_forumpost_commentaire', {'id': forumpost.id}) }}">Commentez !<i class="fa fa-arrow-right ms-3"></i></a>
+                                </div>
+                            </div>
+                            <div class="team-text">
+                                <h2>{{ forumpost.title }}</h2>
+                            </div>
                         </div>
                     </div>
-                    <div class="team-text">
-                        <h2>{{ forumpost.title }}</h2>
-                    </div>
-                </div>
-
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-
     </div>
+    <!-- Team End -->
 
-</div>
-<!-- Team End -->
 {% endblock %}

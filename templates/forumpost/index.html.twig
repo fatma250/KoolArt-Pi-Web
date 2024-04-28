@@ -1,21 +1,43 @@
+
 {% extends 'base_back.html.twig' %}
 
 {% block title %}Forumpost index{% endblock %}
 
 {% block body %}
     <h1>Forumpost index</h1>
+    <form action="{{ path('app_forumpost_search') }}" method="GET">
+        <input type="text" id="query" name="query">
+        <button type="submit">Search</button>
+    </form>
+    </form>
+    <form action="{{ path('app_forumpostsback_tri') }}" method="GET">
+        <label for="order">Ordre :</label>
+        <select name="order" id="order">
+            <option value="asc">Croissant</option>
+            <option value="desc">Décroissant</option>
+        </select>
+
+        <label for="field">Champ de tri :</label>
+        <select name="field" id="field">
+            <option value="title">Titre</option>
+
+            <!-- Ajoutez d'autres options pour les champs de tri si nécessaire -->
+        </select>
+
+        <button type="submit" class="btn btn-primary">Trier</button>
+    </form>
 
     <table class="table">
         <thead>
-            <tr>
+        <tr>
 
-                <th>Title</th>
-                <th>Content</th>
-                <th>actions</th>
-            </tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
-        {% for forumpost in forumposts %}
+        {% for forumpost in pagination %}
             <tr>
 
                 <td>{{ forumpost.title }}</td>
@@ -38,6 +60,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
     <a href="{{ path('app_forumpost_new') }}">Create new</a>
 {% endblock %}

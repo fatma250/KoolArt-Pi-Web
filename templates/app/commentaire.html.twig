@@ -31,29 +31,29 @@
                         style="min-height: 450px"
                 >
                     <div class="position-relative h-100">
-                        <td> {% if forumpost.content %}
-
-                                <img src="{{ asset('assets/imgpost/imgPost/' ~ forumpost.content) }}" alt="le post" style="min-height: 450px; border: 0">
-                            {% else %}
-                                Pas d'image
-                            {% endif %}</td>
-                        <td>
+                        {% if forumpost.content %}
+                            <img src="{{ asset('assets/imgpost/imgPost/' ~ forumpost.content) }}" alt="le post" style="max-width: 200%; max-height: 350px; border: 0">
+                        {% else %}
+                            <p>Pas d'image</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="border-start border-5 border-primary ps-4 mb-5">
                         <h6 class="text-body text-uppercase mb-2">Commentaire</h6>
                         <h1 class="display-6 mb-0">
-                            <td>{{ forumpost.title}}</td>
+                            {{ forumpost.title }}
                         </h1>
                     </div>
 
+
                     <form method="post" action="{{ path('addCommentaire', {'id': forumpost.id}) }}">
-                        <div class="mb-3">
+                        <div class="mb-5" style="max-height: 300px; overflow-y: auto;">
                             <label for="commentaire" class="form-label">Votre commentaire</label>
                             <textarea class="form-control" id="commentaire" name="commentaire"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Envoyer le commentaire</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #719a0a; color: #ffffff;">Envoyer le commentaire</button>
+
                     </form>
                 </div>
             </div>

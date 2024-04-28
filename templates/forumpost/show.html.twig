@@ -7,24 +7,45 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ forumpost.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ forumpost.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ forumpost.content }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ forumpost.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ forumpost.title }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ forumpost.content }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_forumpost_index') }}">back to list</a>
+    <div style="display: flex; gap: 10px;">
+        <a href="{{ path('app_forumpost_index') }}" class="btn btn-primary" style="background-color: #fbaf32; color: #ffffff;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M5.354 11.354a.5.5 0 0 0 0-.708L2.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+                <path fill-rule="evenodd" d="M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8z"/>
+            </svg>
+            <span style="padding-left: 5px; padding-right: 5px;">Back to List</span>
+        </a>
 
-    <a href="{{ path('app_forumpost_edit', {'id': forumpost.id}) }}">edit</a>
+        <a href="{{ path('app_forumpost_edit', {'id': forumpost.id}) }}" class="btn btn-primary" style="background-color: #719a0a; color: #ffffff;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                <path d="M13.75 0a.75.75 0 0 1 .75.75v11.793l-3.02-3.02a1.5 1.5 0 0 0-2.122 0L6.354 12.854l-1.768 1.768a.25.25 0 0 1-.354 0l-3-3a.25.25 0 0 1 0-.354l1.768-1.768-3.02-3.02a.75.75 0 0 1 0-1.06L9.22 0h4.53zM11.5 1.61L12.89 3H11.5a.5.5 0 0 0-.5.5v1.39l-9.08 9.08a.5.5 0 0 0-.122.204l-.748 2.244a.5.5 0 0 0 .616.617l2.244-.747a.5.5 0 0 0 .203-.122l9.08-9.08h1.39a.5.5 0 0 0 .5-.5V2.89l-1.39-1.39zm-6.218 10.212l-2.12.707.707-2.12 6.708-6.707 1.414 1.414-6.707 6.706z"/>
+            </svg>
+            <span style="padding-left: 5px; padding-right: 5px;">Edit</span>
+        </a>
 
-    {{ include('forumpost/_delete_form.html.twig') }}
+        <form method="post" action="{{ path('app_forumpost_delete', {'id': forumpost.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forumpost.id) }}">
+            <button class="btn btn-danger" style="width: fit-content;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M3.5 1.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5V2h-9v-.5zm8-1a1.5 1.5 0 0 1 1.5 1.5V2h-3v-.5a1.5 1.5 0 0 1 1.5-1.5zM5.5 2V1h-3v.5a1.5 1.5 0 0 0 1.5 1.5h3V2h-3.002zM2 4v10.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V4H2z"/>
+                </svg>
+                Delete
+            </button>
+        </form>
+    </div>
 {% endblock %}

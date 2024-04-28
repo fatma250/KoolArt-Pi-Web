@@ -1,0 +1,19 @@
+{#<<div class="pagination">#}
+{#    {% if pagination.hasPreviousPage %}#}
+{#        <a href="{{ urlGenerator.generate('app_forumpost_index', {'page': pagination.previousPageNumber}) }}">Précédent</a>#}
+
+{#    {% endif %}#}
+
+{#    {% for page in pagination.pages %}#}
+{#        {% if pagination.currentPageNumber == page %}#}
+{#            <span>{{ page }}</span>#}
+{#        {% else %}#}
+{#            <a href="{{ path('app_forumpost_index', {'page': page}) }}">{{ page }}</a>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+
+{#    {% if pagination.hasNextPage %}#}
+{#        <a href="{{ path('app_forumpost_index', {'page': pagination.nextPageNumber}) }}">Suivant</a>#}
+{#    {% endif %}#}
+{#</div>#}
+

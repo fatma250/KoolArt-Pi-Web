@@ -9,18 +9,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/forumpost')]
 class ForumpostController extends AbstractController
 {
-    #[Route('/', name: 'app_forumpost_index', methods: ['GET'])]
-    public function index(ForumpostRepository $forumpostRepository): Response
-    {
-        return $this->render('forumpost/index.html.twig', [
-            'forumposts' => $forumpostRepository->findAll(),
-        ]);
-    }
+//    #[Route('/', name: 'app_forumpost_index', methods: ['GET'])]
+//    public function index(ForumpostRepository $forumpostRepository): Response
+//    {
+//        return $this->render('forumpost/index.html.twig', [
+//            'forumposts' => $forumpostRepository->findAll(),
+//        ]);
+//    }
 
 
     #[Route('/new', name: 'app_forumpost_new', methods: ['GET', 'POST'])]
@@ -63,6 +65,20 @@ class ForumpostController extends AbstractController
             'form' => $form,
         ]);
     }
+    //pagination
+    #[Route('/', name: 'app_forumpost_index', methods: ['GET'])]
+    public function forumpost (Request $request, ForumpostRepository $forumpostRepository, PaginatorInterface $paginator): Response
+    {
+        $pagination = $paginator->paginate(
+            $forumpostRepository->findAll(),
+            $request->query->getInt('page', 1),
+            3
+        );
+
+        return $this->render('forumpost/index.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
 
     #[Route('/{id}', name: 'app_forumpost_show', methods: ['GET'])]
     public function show(Forumpost $forumpost): Response
@@ -71,6 +87,7 @@ class ForumpostController extends AbstractController
             'forumpost' => $forumpost,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_forumpost_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Forumpost $forumpost, EntityManagerInterface $entityManager): Response
@@ -138,4 +155,61 @@ class ForumpostController extends AbstractController
             'form' => $form,
         ]);
     }
+//recherche
+    #[Route('/forumpost/search', name: 'app_forumpost_search', methods: ['GET'])]
+    public function search(Request $request, ForumpostRepository $forumpostRepository, PaginatorInterface $paginator): Response
+    {
+        $query = $request->query->get('query');
+        if ($query) {
+            $forumposts = $forumpostRepository->createQueryBuilder('a')
+                ->where('a.title LIKE :query')
+                ->setParameter('query', '%' . $query . '%')
+                ->getQuery();
+
+
+            $pagination = $paginator->paginate(
+                $forumposts,
+                $request->query->getInt('page', 1),
+                10
+            );
+        } else {
+
+            $pagination = null;
+        }
+
+        return $this->render('forumpost/index.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
+    //tri
+    #[Route('/forumpost/tri', name: 'app_forumpostsback_tri', methods: ['GET'])]
+    public function tri(Request $request, ForumpostRepository $forumpostRepository, PaginatorInterface $paginator): Response
+    {
+        $order = $request->query->get('order', 'asc');
+        $field = $request->query->get('field', 'title');
+
+        if (!in_array(strtolower($order), ['asc', 'desc'])) {
+            $order = 'asc';
+        }
+
+        if (!in_array($field, ['title'])) {
+            $field = 'title';
+        }
+
+        $queryBuilder = $forumpostRepository->createQueryBuilder('a')
+            ->orderBy('a.' . $field, $order);
+
+        $pagination = $paginator->paginate(
+            $queryBuilder->getQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('forumpost/index.html.twig', [
+            'pagination' => $pagination,
+
+        ]);
+    }
+
+
+
 }
