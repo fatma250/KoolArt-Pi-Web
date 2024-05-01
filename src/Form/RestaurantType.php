@@ -19,8 +19,8 @@ class RestaurantType extends AbstractType
             ->add('location')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'category', // assuming 'category' is the property to display in the select options
-                'placeholder' => 'Select a category', // optional
+                'choice_label' => 'category',
+                'placeholder' => 'Select a category', 
                 'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->andWhere('c.type = :type')
@@ -29,8 +29,8 @@ class RestaurantType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Restaurant Image',
-                'mapped' => false, // Tell Symfony not to map this field to any entity property
-                'required' => false, // Not mandatory to upload an image
+                'mapped' => false, 
+                'required' => false, 
             ]);
     }
 

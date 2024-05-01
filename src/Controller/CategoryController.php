@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,19 @@ class CategoryController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Category Added';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+            $htmlContent = str_replace("{Title}", "Category Added", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Type: ".$category->getType().   "<br>". 
+            "Category: ".$category->getCategory().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
+
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,7 +72,19 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Category Updated';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+            $htmlContent = str_replace("{Title}", "Category Updated", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Type: ".$category->getType().   "<br>". 
+            "Category: ".$category->getCategory().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -73,6 +99,20 @@ class CategoryController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $entityManager->remove($category);
+            
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Category Removed';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/ALERT.html');
+            $htmlContent = str_replace("{Title}", "Category Removed", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Type: ".$category->getType().   "<br>". 
+            "Category: ".$category->getCategory().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
+
             $entityManager->flush();
         }
 

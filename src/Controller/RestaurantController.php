@@ -6,13 +6,15 @@ use App\Entity\Restaurant;
 use App\Form\RestaurantType;
 use App\Repository\ProductRepository;
 use App\Repository\RestaurantRepository;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 #[Route('/restaurant')]
 class RestaurantController extends AbstractController
@@ -25,7 +27,7 @@ class RestaurantController extends AbstractController
         ]);
     }
     #[Route('/dash', name: 'app_restaurant_indexdash', methods: ['GET'])]
-    public function indexdash(RestaurantRepository $restaurantRepository, Request $request): Response
+    public function indexdash(EntityManagerInterface $em,RestaurantRepository $restaurantRepository, Request $request, PaginatorInterface $paginator): Response
     {
         if ($request->isXmlHttpRequest()) {
             $searchTerm = $request->query->get('search');
@@ -52,8 +54,19 @@ class RestaurantController extends AbstractController
             return new JsonResponse(['restaurants' => $restaurantsArray]);
         }
     
+        $queryBuilder = $restaurantRepository->createQueryBuilder('r'); //yjib liste resto
+
+        
+
+        $pagination = $paginator->paginate(
+            $queryBuilder, // ili bich twarehom "tableau"
+            $request->query->getInt('page', 1), // b chnouwa yabda "ana page yabda beha
+            3 // 9adech ywari f kol page
+        );
+
         return $this->render('restaurant/indexDash.html.twig', [
             'restaurants' => $restaurantRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
     
@@ -69,22 +82,43 @@ class RestaurantController extends AbstractController
             $imageFile = $form->get('imageFile')->getData();
 
             if ($imageFile) {
-                // Generate a unique name for the file
+                
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
 
-                // Move the file to the directory where your images are stored
+                
                 $imageFile->move(
                     $this->getParameter('public_directory').'/uploads',
                     $newFilename
                 );
 
-                // Store the file name in the database (assuming 'image' is the attribute in your entity)
+                
                 $restaurant->setImage('/uploads/'.$newFilename);
             }
 
-            // Persist the entity
+            
             $entityManager->persist($restaurant);
             $entityManager->flush();
+            
+            
+            $mailService = new MailService(); 
+            
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Restaurant Added';
+
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+
+            $htmlContent = str_replace("{Title}", "Restaurant Added", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$restaurant->getName().   "<br>". 
+            "Location: ".$restaurant->getLocation().   "<br>"
+            
+            , $htmlContent);
+
+            //str_replace => string replace
+            //("chnouwa tbadal","b chnouwa tbadlou","win tbaldou")
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
+
 
             return $this->redirectToRoute('app_restaurant_indexdash', [], Response::HTTP_SEE_OTHER);
         }
@@ -115,20 +149,33 @@ class RestaurantController extends AbstractController
             $imageFile = $form->get('imageFile')->getData();
 
             if ($imageFile) {
-                // Generate a unique name for the file
+                
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
 
-                // Move the file to the public/uploads directory
+                
                 $imageFile->move(
                     $this->getParameter('public_directory').'/uploads',
                     $newFilename
                 );
 
-                // Store the file name in the database (assuming 'image' is the attribute in your entity)
+                
                 $restaurant->setImage('/uploads/'.$newFilename);
             }
 
             $entityManager->flush();
+
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Restaurant Updated';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+            $htmlContent = str_replace("{Title}", "Product Updated", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$restaurant->getName().   "<br>". 
+            "Location: ".$restaurant->getLocation().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
 
             return $this->redirectToRoute('app_restaurant_indexdash', [], Response::HTTP_SEE_OTHER);
         }
@@ -142,7 +189,7 @@ class RestaurantController extends AbstractController
     #[Route('/{id}', name: 'app_restaurant_delete', methods: ['POST'])]
     public function delete(Request $request, Restaurant $restaurant, EntityManagerInterface $entityManager): Response
     {
-            // Delete associated image file if it exists
+            
             $imagePath = $this->getParameter('public_directory') . $restaurant->getImage();
             if (file_exists($imagePath)) {
                 unlink($imagePath);
@@ -157,7 +204,7 @@ class RestaurantController extends AbstractController
     #[Route('/delete/{id}', name: 'app_restaurant_deletee', methods: ['POST','GET'])]
     public function deletee(Request $request, Restaurant $restaurant, EntityManagerInterface $entityManager): Response
     {
-            // Delete associated image file if it exists
+            
             $imagePath = $this->getParameter('public_directory') . $restaurant->getImage();
             if (file_exists($imagePath)) {
                 unlink($imagePath);
@@ -166,6 +213,18 @@ class RestaurantController extends AbstractController
             $entityManager->remove($restaurant);
             $entityManager->flush();
         
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Restaurant Removed';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/ALERT.html');
+            $htmlContent = str_replace("{Title}", "Product Removed", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$restaurant->getName().   "<br>". 
+            "Location: ".$restaurant->getLocation().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
 
         return $this->redirectToRoute('app_restaurant_indexdash', [], Response::HTTP_SEE_OTHER);
     }

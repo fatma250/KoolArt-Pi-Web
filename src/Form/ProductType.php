@@ -18,8 +18,8 @@ class ProductType extends AbstractType
             ->add('price')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'category', // assuming 'category' is the property to display in the select options
-                'placeholder' => 'Select a category', // optional
+                'choice_label' => 'category', 
+                'placeholder' => 'Select a category', 
                 'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->andWhere('c.type = :type')

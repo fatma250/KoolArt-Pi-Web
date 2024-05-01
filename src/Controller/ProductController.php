@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,6 +41,19 @@ class ProductController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Product Added';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+            $htmlContent = str_replace("{Title}", "Product Added", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$product->getName().   "<br>". 
+            "Price: ".$product->getPrice().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
+
             return $this->redirectToRoute('app_product_indexdash', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -65,6 +79,19 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Product Updated';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/SUCCESS.html');
+            $htmlContent = str_replace("{Title}", "Product Updated", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$product->getName().   "<br>". 
+            "Price: ".$product->getPrice().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -81,6 +108,21 @@ class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
+
+            
+            $mailService = new MailService(); 
+            $recipient = 'oumaimarais0502@gmail.com';
+            $subject = 'Product Delete';
+            $htmlContent = $mailService->readHTMLFile('mail/notification/ALERT.html');
+            $htmlContent = str_replace("{Title}", "Product Delete", $htmlContent);
+            $htmlContent = str_replace("{Description}", 
+            "Name: ".$product->getName().   "<br>". 
+            "Price: ".$product->getPrice().   "<br>"
+            
+            , $htmlContent);
+            
+            $mailService->sendMail($recipient, $subject, $htmlContent);
+
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
