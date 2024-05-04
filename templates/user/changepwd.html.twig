@@ -41,36 +41,23 @@
             <div class="d-flex justify-content-center">
                 {{ form_start(registrationForm, {'attr': {'class': 'form-container', 'novalidate': 'novalidate'}}) }}
                 <div class="card p-4" style="width:800px; margin-top: 150px; background-color: #fbaf32;">
-                    <div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.prenom.vars.id }}" style="color: white;">Prenom</label>
-                            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Your First Name', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
-                            {{ form_errors(registrationForm.prenom) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.nom.vars.id }}" style="color: white;">Nom</label>
-                            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Your Last Name', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
-                            {{ form_errors(registrationForm.nom) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.email.vars.id }}" style="color: white;">Email</label>
-                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Your Email', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
-                            {{ form_errors(registrationForm.email) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.cin.vars.id }}" style="color: white;">CIN</label>
-                            {{ form_widget(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
-                            {{ form_errors(registrationForm.cin) }}
-                        </div>
-                        <div>
-                            <a href="{{ path('change_password',{'id': user.id}) }}" class="nav-item nav-link change-password-link">Change Password</a>
-                        </div>
+
+
+                    <div class="control-group">
+                        <input type="password" name="{{ field_name(registrationForm.password.first) }}" value="{{ field_value(registrationForm.password.first) }}" type="text" class="form-control p-4" id="subject" style=" border-color: #fff; background-color: transparent; color: #fff;" placeholder="Your Password" />
+                        <p class="help-block text-danger">{{ form_errors(registrationForm.password.first) }}</p>
+                    </div>
+                    <div class="control-group">
+                        <input type="password"name="{{ field_name(registrationForm.password.second) }}" value="{{ field_value(registrationForm.password.second) }}" type="text" class="form-control " style=" border-color: #fff; background-color: transparent; color: #fff;" id="subject" placeholder="Confirm Your Password"/>
+                        <p class="help-block text-danger">{{ form_errors(registrationForm.password.second) }}</p>
+                    </div>
 
 
 
-                        <!-- Add more form fields as needed -->
+
+                    <!-- Add more form fields as needed -->
                         <div class="text-center" style="margin-top: 10px">
-                            <button type="submit" class="btn btn-light">Update</button>
+                            <button type="submit" class="btn btn-light">Confirm Password</button>
 
                         </div>
                         {{ form_end(registrationForm) }}

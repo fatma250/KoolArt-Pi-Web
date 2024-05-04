@@ -51,6 +51,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         }
         $user = $token->getUser();
         dump($user->getId());
+        $this->session->set('authenticated', true);
+
         $this->session->set('user',$user);
 
         dump($this->session->set('user',$user));
