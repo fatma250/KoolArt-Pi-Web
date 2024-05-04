@@ -54,6 +54,14 @@
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
+                        {# Inside your base template, or wherever you want the pop-up to appear #}
+                        {% if app.session.get('account_banned') %}
+                            <div id="popup" class="popup">
+                                <span class="popup-text">Your account has been banned.</span>
+                            </div>
+                            {# Clear the session variable after displaying the pop-up #}
+                            {% set _ = app.session.remove('account_banned') %}
+                        {% endif %}
                         <div class="mb-3">
 
                             <label for="email" class="form-label">Email</label>
@@ -99,3 +107,36 @@
 <script src="{{asset('Back/assets/js/main.js')}}"></script>
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var popup = document.getElementById('popup');
+        if (popup) {
+            popup.style.display = 'block';
+            setTimeout(function() {
+                popup.style.display = 'none';
+            }, 5000); // Adjust the duration as needed
+        }
+    });
+</script>
+
+<style>
+    /* Style for the pop-up */
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: #f44336;
+        color: white;
+        padding: 25px;
+        border-radius: 10px;
+        z-index: 9999;    }
+
+
+    .popup-text {
+        text-align: center;
+    }
+
+
+
+</style>

@@ -5,9 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -17,11 +19,30 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('email',EmailType::class,[
+                'constraints'=>[
+                    new NotBlank([
+                        'message' => 'Please enter a email',
+                    ]), new Email([
+                        'message' => 'The email "{{ value }}" is not a valid email.',
+                    ]),
+                ]
+            ])
             ->add('prenom')
             ->add('nom')
-            ->add('cin')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('cin', null, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a CIN',
+                    ]),
+                    new Length([
+                        'min' => 8,
+                        'max' => 8,
+                        'minMessage' => 'Your CIN must be exactly 8 characters long.',
+                        'maxMessage' => 'Your CIN must be exactly 8 characters long.',
+                    ]),
+                ],
+            ])            ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

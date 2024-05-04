@@ -1,55 +1,105 @@
-{% extends 'base.html.twig' %}
+{% extends 'home.html.twig' %}
 
-{% block dashboard%} {% endblock %}
-{% block body %}
-    <div class="container-xxl flex-grow-1 container-p-y" >
-        <div class="d-flex justify-content-center">
-            {{ form_start(registrationForm, {'attr': {'class': 'form-container', 'novalidate': 'novalidate'}}) }}
-            <div class="card p-4 " style="width:800px; margin-top: 150px;">
-                <form class="container position-relative text-center text-lg-start">
-                    <div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.prenom.vars.id }}">Prenom</label>
-                            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Your First Name'}}) }}
-                            {{ form_errors(registrationForm.prenom) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.nom.vars.id }}">Nom</label>
-                            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Your Last Name'}}) }}
-                            {{ form_errors(registrationForm.nom) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.email.vars.id }}">Email</label>
-                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Your Email'}}) }}
-                            {{ form_errors(registrationForm.email) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.cin.vars.id }}">CIN</label>
-                            {{ form_widget(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
-                            {{ form_errors(registrationForm.cin) }}
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="{{ registrationForm.plainPassword.vars.id }}">Password</label>
-                            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
-                            {{ form_errors(registrationForm.plainPassword) }}
-                        </div>
-                        <div class="form-check d-flex justify-content-center">
-                            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
-                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}"></label>
-                        </div>
-                        <!-- Add more form fields as needed -->
+{% block navbar %}
+    <div class="navbar navbar-expand-lg bg-light navbar-light ">
+        <div class="container-fluid">
+            <a href="index.html" class="navbar-brand">Kool <span>Art</span></a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                        <div class="text-center" style="margin-top: 10px">
-                            <button type="submit" class="btn btn-primary">Create</button>
-{#                            <a href="{{ path('front_admin') }}" class="btn btn-secondary"> Go Back </a>#}
-
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ml-auto">
+                    <a href="index.html" class="nav-item nav-link ">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <a href="feature.html" class="nav-item nav-link">Feature</a>
+                    <a href="team.html" class="nav-item nav-link">Chef</a>
+                    <a href="menu.html" class="nav-item nav-link">Menu</a>
+                    <a href="booking.html" class="nav-item nav-link">Booking</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu">
+                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
+                            <a href="single.html" class="dropdown-item">Blog Detail</a>
                         </div>
-
-                        {{ form_end(registrationForm) }}
                     </div>
-                </form>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                </div>
+
+
             </div>
         </div>
     </div>
+{% endblock %}
 
+{%block title %} {% endblock %}
+{% block body %}
+    <div class="body">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="d-flex justify-content-center">
+                {{ form_start(registrationForm, {'attr': {'class': 'form-container', 'novalidate': 'novalidate'}}) }}
+                <div class="card p-4" style="width:800px; margin-top: 150px; background-color: #fbaf32;">
+                    <div>
+                        <div class="form-group mt-3">
+                            <label for="{{ registrationForm.prenom.vars.id }}" style="color: white;">Prenom</label>
+                            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Your First Name', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
+                            {{ form_errors(registrationForm.prenom) }}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="{{ registrationForm.nom.vars.id }}" style="color: white;">Nom</label>
+                            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Your Last Name', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
+                            {{ form_errors(registrationForm.nom) }}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="{{ registrationForm.email.vars.id }}" style="color: white;">Email</label>
+                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Your Email', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="{{ registrationForm.cin.vars.id }}" style="color: white;">CIN</label>
+                            {{ form_widget(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN', 'style': 'border-color: #fff; background-color: transparent; color: #fff;' }}) }}
+                            {{ form_errors(registrationForm.cin) }}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="{{ registrationForm.plainPassword.vars.id }}" style="color: white;">Password</label>
+                            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Password','style': 'border-color: #fff; background-color: transparent; color: #fff;'}}) }}
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
+                        <div class="form-check mt-3">
+                            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}" style="color: white;"></label>
+                        </div>
+
+
+                        <!-- Add more form fields as needed -->
+                        <div class="text-center" style="margin-top: 10px">
+                            <button type="submit" class="btn btn-light">Create</button>
+
+                        </div>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .change-password-link:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+
+        .change-password-link {
+            color: white;
+        }
+
+        .change-password-link:hover {
+            color: blue;
+        }
+
+        .body {
+            background-image: url('{{ asset('front/img/page-header.jpg') }}');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 {% endblock %}

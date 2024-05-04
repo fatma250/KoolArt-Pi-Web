@@ -55,6 +55,7 @@
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                     {% set user=app.session.get("user") %}
                     <a href="{{ path('app_user_edit',{'id': user.id}) }}" class="nav-item nav-link"> {{  user.prenom  }} </a>
+                <a href="{{ path('app_logout') }}" class="nav-item nav-link" > Log Out</a>
                 </div>
 
 

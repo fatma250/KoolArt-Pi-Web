@@ -21,7 +21,7 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('home.html.twig', [
+        return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
@@ -38,6 +38,13 @@ class UserController extends AbstractController
 
     {
         return $this->render('home.html.twig', [
+        ]);
+    }
+    #[Route('/frontpage',name:'frontpage')]
+    public function index3(UserRepository $userRepository):Response
+
+    {
+        return $this->render('front.html.twig', [
         ]);
     }
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
