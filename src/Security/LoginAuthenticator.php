@@ -70,9 +70,9 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         // For example:
         if ($user->getRoles() == 'Client') {
 
-            return new RedirectResponse($this->urlGenerator->generate('app_user_index'));
+            return new RedirectResponse($this->urlGenerator->generate('homepage'));
         }
-        return new RedirectResponse($this->urlGenerator->generate('some_route'));
+        return new RedirectResponse($this->urlGenerator->generate('back_admin'));
     }
     }
 
