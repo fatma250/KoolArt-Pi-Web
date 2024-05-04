@@ -128,24 +128,23 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/ban/{id}', name: 'app_user_toggle_ban')]
-    public function toggleBan(User $user,EntityManagerInterface $entityManager): Response
+    public function toggleBan(User $user, MailerInterface $mailer,EntityManagerInterface $entityManager): Response
     {
 
-        // Toggle ban status
-//        if($user->isStatus()==0)
-//        {
-//
-//            $email = (new Email())
-//                ->from('ahmedjebari022@gmail.com')
-//                ->to($user->getEmail())
-//                ->subject('Ban')
-//                ->html($this->renderView('user/email.html.twig'
-//                // pass any variables to your template
-//                ));
-//            $mailer->send($email);
-//
-//
-//        }
+        if($user->isStatus()==0)
+        {
+
+            $email = (new Email())
+                ->from('ahmedjebari022@gmail.com')
+                ->to($user->getEmail())
+                ->subject('Ban')
+                ->html($this->renderView('user/email.html.twig'
+                // pass any variables to your template
+                ));
+            $mailer->send($email);
+
+
+        }
 
 
         $user->setStatus(!$user->isStatus());
