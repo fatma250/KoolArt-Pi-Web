@@ -81,6 +81,7 @@ class ReservationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    //update done :)
     #[Route('/admin/reservation/update/{id}', name: 'app_back_reservation_update')]
     public function update(Request $request,ManagerRegistry $mr,$id,ReservationRepository $reservationRepository): Response
     {
@@ -103,6 +104,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    //pass the id inside the path so i can retreive enteties
     #[Route('/admin/reservation/delete/{id}', name: 'app_back_reservation_delete')]
     public function delete(ReservationRepository $reservationRepository,int $id,ManagerRegistry $mr): Response
     {        

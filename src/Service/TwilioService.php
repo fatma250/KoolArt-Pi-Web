@@ -16,6 +16,7 @@ class TwilioService
         $this->twilioPhoneNumber = $twilioPhoneNumber;
     }
 
+    //sms function
     public function sendSMS(string $recipient, string $message): bool
     {
         try {
